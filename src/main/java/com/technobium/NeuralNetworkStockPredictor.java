@@ -95,7 +95,7 @@ public class NeuralNetworkStockPredictor {
 	}
 
 	double deNormalizeValue(double input) {
-		return min + (input * (max - min) - 0.1) / 0.8;
+		return min + (input - 0.1) * (max - min) / 0.8;
 	}
 
 	void trainNetwork() throws IOException {
@@ -103,8 +103,8 @@ public class NeuralNetworkStockPredictor {
 				2 * slidingWindowSize + 1, 1);
 
 		int maxIterations = 1000;
-		double learningRate = 0.001;
-		double maxError = 0.001;
+		double learningRate = 0.5;
+		double maxError = 0.00001;
 		SupervisedLearning learningRule = neuralNetwork.getLearningRule();
 		learningRule.setMaxError(maxError);
 		learningRule.setLearningRate(learningRate);
@@ -153,5 +153,6 @@ public class NeuralNetworkStockPredictor {
 		double[] networkOutput = neuralNetwork.getOutput();
 		System.out.println("Expected value  : 2066.96");
 		System.out.println("Predicted value : " + deNormalizeValue(networkOutput[0]));
+
 	}
 }
